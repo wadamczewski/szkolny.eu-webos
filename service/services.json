@@ -1,0 +1,10 @@
+{
+  "id": "pl.prywatny.dziennik.service",
+  "description": "Dziennik: połączenie z Librus Synergia",
+  "services": [
+    {
+      "name": "pl.prywatny.dziennik.service",
+      "description": "Logowanie, synchronizacja danych i wiadomości z Librus Synergia"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "pl.prywatny.dziennik",
+  "version": "1.0.0",
+  "vendor": "Dziennik (nieoficjalny)",
+  "type": "web",
+  "main": "index.html",
+  "title": "Dziennik",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "bgColor": "#0E1116",
+  "iconColor": "#E86B2E",
+  "resolution": "1920x1080",
+  "disableBackHistoryAPI": true
+}
