@@ -29,8 +29,8 @@ Twórcy Szkolny.eu piszą, że **firma Librus zabroniła im** publikowania aplik
 Dlatego ta wersja **nie jest i nie będzie publikowana** w LG Content Store. Jest do instalacji na własnym telewizorze,
 do prywatnego użytku. **Może przestać działać** po zmianach po stronie Librusa.
 
-Telewizory LG działają na webOS, nie na Androidzie. Wersja na Android TV / Google TV:
-[szkolny.eu-androidtv](https://github.com/wadamczewski/szkolny.eu-androidtv).
+Telewizory LG działają na webOS, nie na Androidzie. Inne wersje: [iOS](https://github.com/wadamczewski/szkolny.eu-iOS), [CarPlay](https://github.com/wadamczewski/szkolny.eu-carplay),
+[Android Auto](https://github.com/wadamczewski/szkolny.eu-androidauto), [Android TV / Google TV](https://github.com/wadamczewski/szkolny.eu-androidtv).
 
 > [!NOTE]
 > **Stan weryfikacji.** Sprawdzone na prawdziwym telewizorze LG OLED65B5 (webOS 25, Node.js 16.20.2, root przez
