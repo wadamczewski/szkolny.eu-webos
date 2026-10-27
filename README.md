@@ -30,7 +30,7 @@ Dlatego ta wersja **nie jest i nie będzie publikowana** w LG Content Store. Jes
 do prywatnego użytku. **Może przestać działać** po zmianach po stronie Librusa.
 
 Telewizory LG działają na webOS, nie na Androidzie. Wersja na Android TV / Google TV:
-[dziennik-androidtv](https://github.com/wadamczewski/dziennik-androidtv).
+[szkolny.eu-androidtv](https://github.com/wadamczewski/szkolny.eu-androidtv).
 
 > [!NOTE]
 > **Stan weryfikacji.** Sprawdzone na prawdziwym telewizorze LG OLED65B5 (webOS 25, Node.js 16.20.2, root przez
@@ -87,7 +87,7 @@ i odnowione ciasteczka. webOS może ją w każdej chwili zatrzymać i nic się n
 
 ## Instalacja
 
-Gotowa paczka: `pl.prywatny.dziennik_1.0.1_all.ipk` w [Releases](https://github.com/wadamczewski/dziennik-webos/releases/latest).
+Gotowa paczka: `pl.prywatny.dziennik_1.0.1_all.ipk` w [Releases](https://github.com/wadamczewski/szkolny.eu-webos/releases/latest).
 Możesz też zbudować ją sam (niżej). Zainstaluj ją jednym ze sposobów:
 
 **A. Zrootowany telewizor z Homebrew Channel.** Podaj adres i klucz SSH w zmiennych środowiskowych, nie w plikach:
