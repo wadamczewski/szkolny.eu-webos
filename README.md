@@ -33,10 +33,10 @@ Telewizory LG działają na webOS, nie na Androidzie. Wersja na Android TV / Goo
 [dziennik-androidtv](https://github.com/wadamczewski/dziennik-androidtv).
 
 > [!NOTE]
-> **Stan weryfikacji.** Sprawdzone: testy na fikcyjnych danych (12/12), logowanie na lokalnym fałszywym serwerze,
-> działanie usługi w paczce (test z atrapą `webos-service`), wszystkie ekrany w przeglądarce 1920×1080 w trybie demo.
-> **Nie sprawdzone:** uruchomienie na prawdziwym telewizorze (połączenie aplikacji z usługą przez magistralę luna)
-> i logowanie na prawdziwym koncie (ścieżka logowania jest ta sama co w działającej wersji iOS).
+> **Stan weryfikacji.** Sprawdzone na prawdziwym telewizorze LG OLED65B5 (webOS 25, Node.js 16.20.2, root przez
+> Homebrew Channel) i prawdziwym koncie Synergii: instalacja przez `install-ssh.sh`, logowanie, synchronizacja danych
+> i wiadomości. Do tego testy na fikcyjnych danych (12/12) i wszystkie ekrany w przeglądarce 1920×1080 w trybie demo.
+> **Nie sprawdzone:** instalacja w trybie dewelopera LG (bez roota) i starsze wersje webOS.
 
 ## Zrzuty ekranu
 
@@ -87,7 +87,7 @@ i odnowione ciasteczka. webOS może ją w każdej chwili zatrzymać i nic się n
 
 ## Instalacja
 
-Gotowa paczka: `pl.prywatny.dziennik_1.0.0_all.ipk` w [Releases](https://github.com/wadamczewski/dziennik-webos/releases/latest).
+Gotowa paczka: `pl.prywatny.dziennik_1.0.1_all.ipk` w [Releases](https://github.com/wadamczewski/dziennik-webos/releases/latest).
 Możesz też zbudować ją sam (niżej). Zainstaluj ją jednym ze sposobów:
 
 **A. Zrootowany telewizor z Homebrew Channel.** Podaj adres i klucz SSH w zmiennych środowiskowych, nie w plikach:
@@ -96,8 +96,9 @@ Możesz też zbudować ją sam (niżej). Zainstaluj ją jednym ze sposobów:
 TV_HOST=adres-tv TV_SSH_KEY=~/.ssh/klucz ./tools/install-ssh.sh
 ```
 
-Skrypt kopiuje `dist/*.ipk` przez SCP i instaluje go przez `luna://com.webos.appInstallService/dev/install`.
-Potem sprawdza usługę aplikacji na telewizorze (synchronizacja na danych demonstracyjnych). Nie zmienia ekranu
+Skrypt kopiuje `dist/*.ipk` przez SCP, a na telewizorze uruchamia `tools/tv-install.cjs` (Node.js), który instaluje
+paczkę przez `luna://com.webos.appInstallService/dev/install` i sprawdza usługę aplikacji (synchronizacja na danych
+demonstracyjnych). Nie zmienia ekranu
 głównego, skrótów pilota ani innych aplikacji. Jeśli pobrałeś paczkę z Releases, włóż ją do `dist/`.
 Opcjonalnie: `TV_KNOWN_HOSTS=plik` wymusza sprawdzenie klucza hosta z prywatnego pliku `known_hosts`,
 a `TV_LAUNCH=1` od razu uruchamia aplikację na telewizorze.
@@ -106,7 +107,7 @@ a `TV_LAUNCH=1` od razu uruchamia aplikację na telewizorze.
 dewelopera LG, sparuj telewizor (`npx ares-setup-device`) i wykonaj:
 
 ```bash
-npx ares-install dist/pl.prywatny.dziennik_1.0.0_all.ipk
+npx ares-install dist/pl.prywatny.dziennik_1.0.1_all.ipk
 ```
 
 Sesja trybu dewelopera wygasa i trzeba ją odnawiać w aplikacji Developer Mode.
@@ -122,7 +123,7 @@ npm install
 ```
 
 ```bash
-npm run build        # dist/pl.prywatny.dziennik_1.0.0_all.ipk
+npm run build        # dist/pl.prywatny.dziennik_1.0.1_all.ipk
 ```
 
 ```bash
@@ -145,7 +146,7 @@ core/      logika: logowanie Synergii, API gateway, parsery, wiadomości (port S
 service/   usługa webOS (Node.js), przez którą aplikacja łączy się z Librusem
 ui/        interfejs na pilota (bundlowany do app.js przez esbuild)
 app/       appinfo.json, HTML, CSS, ikony
-tools/     build.mjs (.ipk), dev-server.mjs, check-login.mjs, install-ssh.sh
+tools/     build.mjs (.ipk), dev-server.mjs, check-login.mjs, install-ssh.sh + tv-install.cjs
 test/      testy (node --test)
 fixtures/  fikcyjne odpowiedzi Librusa używane w testach
 screenshots/ zrzuty ekranu do README (dane fikcyjne)

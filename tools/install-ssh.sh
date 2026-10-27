@@ -22,17 +22,11 @@ NAME=$(basename "$IPK")
 
 # webOS Dropbear has legacy SCP but no SFTP subsystem, hence -O.
 scp -O "$@" "$IPK" "$TV_USER@$TV_HOST:/tmp/$NAME"
-ssh "$@" "$TV_USER@$TV_HOST" "
-  luna-send -w 60000 -i 'luna://com.webos.appInstallService/dev/install' \
-    '{\"id\":\"com.ares.defaultName\",\"ipkUrl\":\"/tmp/$NAME\",\"subscribe\":true}' \
-    | grep -m 1 -E '\"state\" *: *\"(installed|failed)\"|errorText'
-  rm -f /tmp/$NAME
-  echo 'Test usługi (dane demonstracyjne):'
-  luna-send -n 1 -w 20000 'luna://pl.prywatny.dziennik.service/ping' '{}'
-  luna-send -n 1 -w 30000 'luna://pl.prywatny.dziennik.service/sync' '{\"account\":{\"login\":\"demo\",\"password\":\"demo\"}}' \
-    | grep -o -m 1 -E '\"returnValue\": *(true|false)|\"errorText\": *\"[^\"]*\"'
-  if [ '${TV_LAUNCH:-}' = 1 ]; then
-    luna-send -n 1 'luna://com.webos.applicationManager/launch' '{\"id\":\"pl.prywatny.dziennik\"}' >/dev/null
-  fi
-"
-echo "Gotowe. Uruchom „Dziennik” z listy aplikacji telewizora i wybierz „Wypróbuj na danych demonstracyjnych”."
+# The install itself runs on the TV in Node (tools/tv-install.cjs), like tvunlock's remote.cjs.
+STATUS=0
+ssh "$@" "$TV_USER@$TV_HOST" "/usr/bin/node - /tmp/$NAME ${TV_LAUNCH:-0}; rc=\$?; rm -f /tmp/$NAME; exit \$rc" < tools/tv-install.cjs || STATUS=$?
+if [ "$STATUS" -ne 0 ]; then
+  echo "Instalacja nie powiodła się (kod $STATUS). Jeśli telewizor dopiero się włączył, spróbuj za minutę." >&2
+  exit "$STATUS"
+fi
+echo "Gotowe. Uruchom „Dziennik” z listy aplikacji telewizora."

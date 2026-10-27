@@ -1,6 +1,6 @@
 {
   "name": "pl.prywatny.dziennik.service",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dziennik: połączenie z Librus Synergia",
   "main": "service.js",
   "license": "GPL-3.0-only"

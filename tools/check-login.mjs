@@ -8,7 +8,29 @@ import { fileURLToPath } from 'node:url';
 import readline from 'node:readline';
 
 const require = createRequire(import.meta.url);
-const client = require(join(dirname(fileURLToPath(import.meta.url)), '..', 'core', 'client.js'));
+const core = join(dirname(fileURLToPath(import.meta.url)), '..', 'core');
+const client = require(join(core, 'client.js'));
+const C = require(join(core, 'constants.js'));
+const { SynergiaSession } = require(join(core, 'session.js'));
+const { isLoggedOut } = require(join(core, 'synergia.js'));
+
+/** Structure of the messages page only (status, path, title, markers): no names or contents. */
+async function diagnoseMessages(account) {
+  const session = new SynergiaSession(account);
+  await session.ensureLoggedIn(false);
+  const variants = [
+    ['POST', { method: 'POST', form: [['numer_strony105', '0'], ['porcjowanie_pojemnik105', '105']] }],
+    ['GET', {}],
+  ];
+  for (const [label, options] of variants) {
+    const r = await session.http.send(`${C.synergiaURL}/wiadomosci/1/5`, Object.assign({ userAgent: C.webUserAgent }, options));
+    const html = r.text;
+    const title = ((html.match(/<title>([^<]*)/i) || [])[1] || '').trim();
+    console.log(`  ${label}: HTTP ${r.status}, adres: ${new URL(r.url).pathname}, tytuł: „${title}”, rozmiar: ${html.length}`);
+    console.log(`    tabela wiadomości: ${/class="decorated stretch"/.test(html)}, wylogowany: ${isLoggedOut(html)}, ` +
+      `nowy moduł (wiadomosci3): ${html.includes('wiadomosci3')}, przerwa techniczna: ${html.includes('Przerwa techniczna')}`);
+  }
+}
 
 function ask(question, hidden) {
   return new Promise((resolve) => {
@@ -47,9 +69,16 @@ try {
   if (data.warnings.length) console.log(`  nie wczytało się: ${data.warnings.join('; ')}`);
 
   step('Wiadomości');
-  const { messages } = await client.messages({ account, folder: 'inbox' });
-  console.log(`ok (${messages.length})`);
+  try {
+    const { messages } = await client.messages({ account, folder: 'inbox' });
+    console.log(`ok (${messages.length})`);
+  } catch (e) {
+    console.log(`błąd [${e.code || 'error'}]: ${e.message}`);
+    console.log('Diagnostyka strony wiadomości:');
+    await diagnoseMessages(account);
+    process.exitCode = 1;
+  }
 } catch (e) {
-  console.log(`\nBłąd: ${e.message}`);
+  console.log(`\nBłąd [${e.code || 'error'}]: ${e.message}`);
   process.exitCode = 1;
 }

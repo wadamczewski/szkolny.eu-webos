@@ -1,6 +1,6 @@
 {
   "id": "pl.prywatny.dziennik",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "vendor": "Dziennik (nieoficjalny)",
   "type": "web",
   "main": "index.html",

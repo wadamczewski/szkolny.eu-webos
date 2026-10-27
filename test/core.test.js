@@ -127,6 +127,15 @@ test('Synergia messages HTML', () => {
   assert.strictEqual(detail.text, 'Dzień dobry,\nto jest fikcyjna wiadomość testowa.');
   assert.deepStrictEqual(detail.attachments, [{ id: '555', messageId: '111111', filename: 'regulamin.pdf' }]);
 
+  // Real Synergia pages omit optional end tags (</td>, </tr>); lighter parsers lost the whole table.
+  const optional = messageList(html('inbox-optional-end-tags.html'), 'inbox');
+  assert.deepStrictEqual(optional.map((m) => m.id), ['333333', '444444']);
+  assert.strictEqual(optional[0].subject, 'Zebranie klasowe');
+  assert.strictEqual(optional[0].correspondent, 'Testowy Jan (Nauczyciel)');
+  assert.ok(optional[0].unread && optional[0].hasAttachments);
+  assert.ok(!optional[1].unread && !optional[1].hasAttachments);
+  assert.strictEqual(isLoggedOut(html('inbox-optional-end-tags.html')), false);
+
   assert.strictEqual(isLoggedOut(html('inbox.html')), false);
   assert.strictEqual(isLoggedOut('<a href="/loguj/portalRodzina">Zaloguj</a>'), true);
 });

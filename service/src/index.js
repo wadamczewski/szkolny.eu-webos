@@ -49,4 +49,4 @@ register('sync', client.sync);
 register('timetable', client.timetable);
 register('messages', client.messages);
 register('message', client.message);
-register('ping', () => ({ version: '1.0.0', node: process.version }));
+register('ping', () => ({ version: '1.0.1', node: process.version }));
