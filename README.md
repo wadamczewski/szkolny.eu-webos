@@ -13,6 +13,10 @@
 ![Licencja](https://img.shields.io/badge/licencja-GPL--3.0-blue?style=for-the-badge&logo=gnu&logoColor=white)
 ![Status](https://img.shields.io/badge/status-beta-yellowgreen?style=for-the-badge)
 
+<br>
+
+<img src="screenshots/02-start.png" width="100%" alt="Ekran Start w trybie demonstracyjnym">
+
 </div>
 
 ## Ważna informacja
@@ -33,6 +37,19 @@ Telewizory LG działają na webOS, nie na Androidzie. Wersja na Android TV / Goo
 > działanie usługi w paczce (test z atrapą `webos-service`), wszystkie ekrany w przeglądarce 1920×1080 w trybie demo.
 > **Nie sprawdzone:** uruchomienie na prawdziwym telewizorze (połączenie aplikacji z usługą przez magistralę luna)
 > i logowanie na prawdziwym koncie (ścieżka logowania jest ta sama co w działającej wersji iOS).
+
+## Zrzuty ekranu
+
+Zrzuty w 4K (3840×2160) z podglądu aplikacji webOS (1920×1080, podwójna gęstość pikseli), w trybie demonstracyjnym. **Wszystkie dane na zrzutach są fikcyjne.**
+Kliknij obrazek, żeby zobaczyć pełną rozdzielczość.
+
+<table>
+<tr><td width="50%"><a href="screenshots/02-start.png"><img src="screenshots/02-start.png" alt="Start: plan na dziś, szczęśliwy numerek, terminarz, oceny"></a><br><sub>Start: plan na dziś, szczęśliwy numerek, terminarz, oceny</sub></td><td width="50%"><a href="screenshots/03-plan-lekcji.png"><img src="screenshots/03-plan-lekcji.png" alt="Plan lekcji z zastępstwami i odwołanymi lekcjami"></a><br><sub>Plan lekcji z zastępstwami i odwołanymi lekcjami</sub></td></tr>
+<tr><td width="50%"><a href="screenshots/04-oceny.png"><img src="screenshots/04-oceny.png" alt="Oceny ze średnimi ważonymi"></a><br><sub>Oceny ze średnimi ważonymi</sub></td><td width="50%"><a href="screenshots/05-terminarz.png"><img src="screenshots/05-terminarz.png" alt="Terminarz"></a><br><sub>Terminarz</sub></td></tr>
+<tr><td width="50%"><a href="screenshots/06-frekwencja.png"><img src="screenshots/06-frekwencja.png" alt="Frekwencja"></a><br><sub>Frekwencja</sub></td><td width="50%"><a href="screenshots/07-wiadomosci.png"><img src="screenshots/07-wiadomosci.png" alt="Wiadomości"></a><br><sub>Wiadomości</sub></td></tr>
+<tr><td width="50%"><a href="screenshots/08-wiadomosc.png"><img src="screenshots/08-wiadomosc.png" alt="Czytanie wiadomości"></a><br><sub>Czytanie wiadomości</sub></td><td width="50%"><a href="screenshots/09-konto.png"><img src="screenshots/09-konto.png" alt="Uczniowie i ustawienia"></a><br><sub>Uczniowie i ustawienia</sub></td></tr>
+<tr><td width="50%"><a href="screenshots/01-logowanie.png"><img src="screenshots/01-logowanie.png" alt="Logowanie loginem Synergii"></a><br><sub>Logowanie loginem Synergii</sub></td></tr>
+</table>
 
 ## Funkcje
 
@@ -80,7 +97,10 @@ TV_HOST=adres-tv TV_SSH_KEY=~/.ssh/klucz ./tools/install-ssh.sh
 ```
 
 Skrypt kopiuje `dist/*.ipk` przez SCP i instaluje go przez `luna://com.webos.appInstallService/dev/install`.
-Nie zmienia ekranu głównego, skrótów pilota ani innych aplikacji. Jeśli pobrałeś paczkę z Releases, włóż ją do `dist/`.
+Potem sprawdza usługę aplikacji na telewizorze (synchronizacja na danych demonstracyjnych). Nie zmienia ekranu
+głównego, skrótów pilota ani innych aplikacji. Jeśli pobrałeś paczkę z Releases, włóż ją do `dist/`.
+Opcjonalnie: `TV_KNOWN_HOSTS=plik` wymusza sprawdzenie klucza hosta z prywatnego pliku `known_hosts`,
+a `TV_LAUNCH=1` od razu uruchamia aplikację na telewizorze.
 
 **B. Tryb dewelopera LG** (bez roota). Zainstaluj aplikację „Developer Mode” z LG Content Store, zaloguj się kontem
 dewelopera LG, sparuj telewizor (`npx ares-setup-device`) i wykonaj:
@@ -128,6 +148,7 @@ app/       appinfo.json, HTML, CSS, ikony
 tools/     build.mjs (.ipk), dev-server.mjs, check-login.mjs, install-ssh.sh
 test/      testy (node --test)
 fixtures/  fikcyjne odpowiedzi Librusa używane w testach
+screenshots/ zrzuty ekranu do README (dane fikcyjne)
 ```
 
 </details>
